@@ -30,8 +30,7 @@ class Select extends Component {
     selectedIndex: PropTypes.number,
     type: PropTypes.string,
     onSelect: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onEsc: PropTypes.func
+    onMouseEnter: PropTypes.func
   }
 
   state = {
@@ -70,7 +69,7 @@ class Select extends Component {
   }
 
   getOptions() {
-    const { options, selectedIndex, prefixCls, onEsc } = this.props
+    const { options, selectedIndex, prefixCls } = this.props
     return options.map((item, index) => {
       const selected = selectedIndex === index
       const cls = classNames({
@@ -83,8 +82,12 @@ class Select extends Component {
             this.onSelect(item.value)
           }
       const onKeyDown = e => {
-        if (e.keyCode === 13) onClick()
-        else if (e.keyCode === 27) onEsc()
+        if (e.keyCode === 13 || e.keyCode === 32) {
+          // enter or space
+          onClick()
+          e.preventDefault()
+          e.stopPropagation()
+        }
       }
 
       return (

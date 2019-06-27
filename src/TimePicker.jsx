@@ -135,7 +135,6 @@ export default class Picker extends Component {
     this.setOpen(open)
   }
 
-  onEsc = () => {
     this.setOpen(false)
     this.focus()
   }
@@ -219,7 +218,7 @@ export default class Picker extends Component {
         showHour={showHour}
         showMinute={showMinute}
         showSecond={showSecond}
-        onEsc={this.onEsc}
+        closePanel={this.closePanel}
         format={this.getFormat()}
         placeholder={placeholder}
         disabledHours={disabledHours}
