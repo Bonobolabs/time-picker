@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import classNames from 'classnames'
 import Panel from './Panel'
-import placements from './placements'
 
 function noop() {}
 
@@ -25,7 +24,6 @@ export default class Picker extends Component {
     defaultValue: PropTypes.object,
     open: PropTypes.bool,
     defaultOpen: PropTypes.bool,
-    placement: PropTypes.any,
     getPopupContainer: PropTypes.func,
     placeholder: PropTypes.string,
     format: PropTypes.string,
@@ -333,7 +331,6 @@ export default class Picker extends Component {
     const {
       prefixCls,
       placeholder,
-      placement,
       id,
       disabled,
       transitionName,
