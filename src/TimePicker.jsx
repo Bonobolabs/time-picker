@@ -1,7 +1,7 @@
 /* eslint jsx-a11y/no-autofocus: 0 */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Trigger from 'rc-trigger'
+// import Trigger from 'rc-trigger'
 import moment from 'moment'
 import classNames from 'classnames'
 import Panel from './Panel'
@@ -25,9 +25,7 @@ export default class Picker extends Component {
     defaultValue: PropTypes.object,
     open: PropTypes.bool,
     defaultOpen: PropTypes.bool,
-    align: PropTypes.object,
     placement: PropTypes.any,
-    transitionName: PropTypes.string,
     getPopupContainer: PropTypes.func,
     placeholder: PropTypes.string,
     format: PropTypes.string,
@@ -73,7 +71,6 @@ export default class Picker extends Component {
     popupClassName: '',
     popupStyle: {},
     id: '',
-    align: {},
     defaultOpenValue: moment(),
     allowEmpty: true,
     showHour: true,
@@ -83,7 +80,6 @@ export default class Picker extends Component {
     disabledMinutes: noop,
     disabledSeconds: noop,
     hideDisabledOptions: false,
-    placement: 'bottomLeft',
     onChange: noop,
     onAmPmChange: noop,
     onOpen: noop,
@@ -338,7 +334,6 @@ export default class Picker extends Component {
       prefixCls,
       placeholder,
       placement,
-      align,
       id,
       disabled,
       transitionName,
@@ -357,22 +352,29 @@ export default class Picker extends Component {
     const { open, value } = this.state
     const popupClassName = this.getPopupClassName()
     return (
-      <Trigger
-        prefixCls={`${prefixCls}-panel`}
-        popupClassName={popupClassName}
-        popupStyle={popupStyle}
-        popup={this.getPanelElement()}
-        popupAlign={align}
-        builtinPlacements={placements}
-        popupPlacement={placement}
-        action={disabled ? [] : ['click']}
-        destroyPopupOnHide
-        getPopupContainer={getPopupContainer}
-        popupTransitionName={transitionName}
-        popupVisible={open}
-        onPopupVisibleChange={this.onVisibleChange}
-      >
-        <span className={classNames(prefixCls, className)} style={style}>
+      // <Trigger
+      //   prefixCls={`${prefixCls}-panel`}
+      //   popupClassName={popupClassName}
+      //   popupStyle={popupStyle}
+      //   popup={this.getPanelElement()}
+      //   builtinPlacements={placements}
+      //   popupPlacement={placement}
+      //   action={disabled ? [] : ['click']}
+      //   destroyPopupOnHide
+      //   getPopupContainer={getPopupContainer}
+      //   popupTransitionName={transitionName}
+      //   popupVisible={open}
+      //   onPopupVisibleChange={this.onVisibleChange}
+      // >
+      <div>
+        {open ? (
+          <div className={popupClassName}> {this.getPanelElement()} </div>
+        ) : null}
+        <span
+          className={classNames(prefixCls, className)}
+          style={style}
+          onClick={() => this.setOpen(true)}
+        >
           <input
             className={`${prefixCls}-input`}
             ref={this.saveInputRef}
@@ -393,7 +395,7 @@ export default class Picker extends Component {
           {inputIcon || <span className={`${prefixCls}-icon`} />}
           {this.renderClearButton()}
         </span>
-      </Trigger>
+      </div>
     )
   }
 }
