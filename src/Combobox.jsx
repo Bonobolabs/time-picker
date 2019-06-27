@@ -121,6 +121,7 @@ class Combobox extends Component {
         )}
         selectedIndex={hourOptionsAdj.indexOf(hourAdj)}
         type="hour"
+        label="hour"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('hour')}
         onEsc={onEsc}
@@ -152,6 +153,7 @@ class Combobox extends Component {
         )}
         selectedIndex={minuteOptions.indexOf(minute)}
         type="minute"
+        label="minute"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('minute')}
         onEsc={onEsc}
@@ -183,6 +185,7 @@ class Combobox extends Component {
         )}
         selectedIndex={secondOptions.indexOf(second)}
         type="second"
+        label="second"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('second')}
         onEsc={onEsc}
@@ -208,6 +211,7 @@ class Combobox extends Component {
         options={AMPMOptions}
         selectedIndex={selected}
         type="ampm"
+        label="AM or PM"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('ampm')}
         onEsc={onEsc}

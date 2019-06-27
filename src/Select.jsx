@@ -121,7 +121,7 @@ class Select extends Component {
   }
 
   render() {
-    const { prefixCls, options } = this.props
+    const { prefixCls, options, label } = this.props
     const { active } = this.state
     if (options.length === 0) {
       return null
@@ -135,8 +135,14 @@ class Select extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        <ul ref={this.saveList}>{this.getOptions()}</ul>
       </div>
+        <ul
+          role="radiogroup"
+          aria-label={`Select ${label}`}
+          ref={this.saveList}
+        >
+          {this.getOptions()}
+        </ul>
     )
   }
 }
