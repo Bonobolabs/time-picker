@@ -19,10 +19,8 @@ class Header extends Component {
     disabledMinutes: PropTypes.func,
     disabledSeconds: PropTypes.func,
     onChange: PropTypes.func,
-    onEsc: PropTypes.func,
     defaultOpenValue: PropTypes.object,
     currentSelectPanel: PropTypes.string,
-    focusOnOpen: PropTypes.bool,
     onKeyDown: PropTypes.func,
     clearIcon: PropTypes.node
   }
@@ -37,19 +35,6 @@ class Header extends Component {
     this.state = {
       str: (value && value.format(format)) || '',
       invalid: false
-    }
-  }
-
-  componentDidMount() {
-    const { focusOnOpen } = this.props
-    if (focusOnOpen) {
-      // Wait one frame for the panel to be positioned before focusing
-      const requestAnimationFrame =
-        window.requestAnimationFrame || window.setTimeout
-      requestAnimationFrame(() => {
-        this.refInput.focus()
-        this.refInput.select()
-      })
     }
   }
 
@@ -148,15 +133,6 @@ class Header extends Component {
     this.setState({
       invalid: false
     })
-  }
-
-  onKeyDown = e => {
-    const { onEsc, onKeyDown } = this.props
-    if (e.keyCode === 27) {
-      onEsc()
-    }
-
-    onKeyDown(e)
   }
 
   getProtoValue() {

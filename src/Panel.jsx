@@ -60,7 +60,7 @@ class Panel extends Component {
     hideDisabledOptions: PropTypes.bool,
     onChange: PropTypes.func,
     onAmPmChange: PropTypes.func,
-    onEsc: PropTypes.func,
+    closePanel: PropTypes.func,
     showHour: PropTypes.bool,
     showMinute: PropTypes.bool,
     showSecond: PropTypes.bool,
@@ -133,12 +133,6 @@ class Panel extends Component {
     return disabledOptions
   }
 
-  // https://github.com/ant-design/ant-design/issues/5829
-  close() {
-    const { onEsc } = this.props
-    onEsc()
-  }
-
   isAM() {
     const { defaultOpenValue } = this.props
     const { value } = this.state
@@ -160,7 +154,7 @@ class Panel extends Component {
       format,
       defaultOpenValue,
       clearText,
-      onEsc,
+      closePanel,
       addon,
       use12Hours,
       onKeyDown,
@@ -206,8 +200,9 @@ class Panel extends Component {
     return (
       <FocusTrap
         focusTrapOptions={{
-          onDeactivate: () => this.close(),
-          clickOutsideDeactivates: true
+          onDeactivate: () => closePanel(),
+          clickOutsideDeactivates: true,
+          escapeDeactivates: true
         }}
       >
         <div className={classNames(className, prefixCls)}>
@@ -217,7 +212,6 @@ class Panel extends Component {
             defaultOpenValue={validDefaultOpenValue}
             value={value}
             currentSelectPanel={currentSelectPanel}
-            onEsc={onEsc}
             format={format}
             placeholder={placeholder}
             hourOptions={hourOptions}
@@ -249,7 +243,6 @@ class Panel extends Component {
             disabledSeconds={disabledSeconds}
             onCurrentSelectPanelChange={this.onCurrentSelectPanelChange}
             use12Hours={use12Hours}
-            onEsc={onEsc}
             isAM={this.isAM()}
           />
           {addon(this)}
