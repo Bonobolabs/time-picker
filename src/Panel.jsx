@@ -4,6 +4,7 @@ import moment from 'moment'
 import classNames from 'classnames'
 import Header from './Header'
 import Combobox from './Combobox'
+import FocusTrap from 'focus-trap-react'
 
 function noop() {}
 
@@ -68,7 +69,6 @@ class Panel extends Component {
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
     addon: PropTypes.func,
-    focusOnOpen: PropTypes.bool,
     onKeyDown: PropTypes.func,
     clearIcon: PropTypes.node
   }
@@ -163,7 +163,6 @@ class Panel extends Component {
       onEsc,
       addon,
       use12Hours,
-      focusOnOpen,
       onKeyDown,
       hourStep,
       minuteStep,
@@ -205,51 +204,57 @@ class Panel extends Component {
     )
 
     return (
-      <div className={classNames(className, `${prefixCls}-inner`)}>
-        <Header
-          clearText={clearText}
-          prefixCls={prefixCls}
-          defaultOpenValue={validDefaultOpenValue}
-          value={value}
-          currentSelectPanel={currentSelectPanel}
-          onEsc={onEsc}
-          format={format}
-          placeholder={placeholder}
-          hourOptions={hourOptions}
-          minuteOptions={minuteOptions}
-          secondOptions={secondOptions}
-          disabledHours={this.disabledHours}
-          disabledMinutes={disabledMinutes}
-          disabledSeconds={disabledSeconds}
-          onChange={this.onChange}
-          focusOnOpen={focusOnOpen}
-          onKeyDown={onKeyDown}
-          inputReadOnly={inputReadOnly}
-          clearIcon={clearIcon}
-        />
-        <Combobox
-          prefixCls={prefixCls}
-          value={value}
-          defaultOpenValue={validDefaultOpenValue}
-          format={format}
-          onChange={this.onChange}
-          onAmPmChange={this.onAmPmChange}
-          showHour={showHour}
-          showMinute={showMinute}
-          showSecond={showSecond}
-          hourOptions={hourOptions}
-          minuteOptions={minuteOptions}
-          secondOptions={secondOptions}
-          disabledHours={this.disabledHours}
-          disabledMinutes={disabledMinutes}
-          disabledSeconds={disabledSeconds}
-          onCurrentSelectPanelChange={this.onCurrentSelectPanelChange}
-          use12Hours={use12Hours}
-          onEsc={onEsc}
-          isAM={this.isAM()}
-        />
-        {addon(this)}
-      </div>
+      <FocusTrap
+        focusTrapOptions={{
+          onDeactivate: () => this.close(),
+          clickOutsideDeactivates: true
+        }}
+      >
+        <div className={classNames(className, prefixCls)}>
+          <Header
+            clearText={clearText}
+            prefixCls={prefixCls}
+            defaultOpenValue={validDefaultOpenValue}
+            value={value}
+            currentSelectPanel={currentSelectPanel}
+            onEsc={onEsc}
+            format={format}
+            placeholder={placeholder}
+            hourOptions={hourOptions}
+            minuteOptions={minuteOptions}
+            secondOptions={secondOptions}
+            disabledHours={this.disabledHours}
+            disabledMinutes={disabledMinutes}
+            disabledSeconds={disabledSeconds}
+            onChange={this.onChange}
+            onKeyDown={onKeyDown}
+            inputReadOnly={inputReadOnly}
+            clearIcon={clearIcon}
+          />
+          <Combobox
+            prefixCls={prefixCls}
+            value={value}
+            defaultOpenValue={validDefaultOpenValue}
+            format={format}
+            onChange={this.onChange}
+            onAmPmChange={this.onAmPmChange}
+            showHour={showHour}
+            showMinute={showMinute}
+            showSecond={showSecond}
+            hourOptions={hourOptions}
+            minuteOptions={minuteOptions}
+            secondOptions={secondOptions}
+            disabledHours={this.disabledHours}
+            disabledMinutes={disabledMinutes}
+            disabledSeconds={disabledSeconds}
+            onCurrentSelectPanelChange={this.onCurrentSelectPanelChange}
+            use12Hours={use12Hours}
+            onEsc={onEsc}
+            isAM={this.isAM()}
+          />
+          {addon(this)}
+        </div>
+      </FocusTrap>
     )
   }
 }

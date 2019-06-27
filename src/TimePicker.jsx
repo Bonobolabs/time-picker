@@ -51,7 +51,6 @@ export default class Picker extends Component {
     hourStep: PropTypes.number,
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
-    focusOnOpen: PropTypes.bool,
     onKeyDown: PropTypes.func,
     autoFocus: PropTypes.bool,
     id: PropTypes.string,
@@ -86,7 +85,6 @@ export default class Picker extends Component {
     onBlur: noop,
     addon: noop,
     use12Hours: false,
-    focusOnOpen: false,
     onKeyDown: noop
   }
 
@@ -201,7 +199,6 @@ export default class Picker extends Component {
       clearText,
       addon,
       use12Hours,
-      focusOnOpen,
       onKeyDown,
       hourStep,
       minuteStep,
@@ -234,7 +231,6 @@ export default class Picker extends Component {
         minuteStep={minuteStep}
         secondStep={secondStep}
         addon={addon}
-        focusOnOpen={focusOnOpen}
         onKeyDown={onKeyDown}
         clearIcon={clearIcon}
       />
