@@ -1,16 +1,16 @@
 /* eslint jsx-a11y/no-autofocus: 0 */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Trigger from 'rc-trigger';
-import moment from 'moment';
-import classNames from 'classnames';
-import Panel from './Panel';
-import placements from './placements';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Trigger from 'rc-trigger'
+import moment from 'moment'
+import classNames from 'classnames'
+import Panel from './Panel'
+import placements from './placements'
 
 function noop() {}
 
 function refFn(field, component) {
-  this[field] = component;
+  this[field] = component
 }
 
 export default class Picker extends Component {
@@ -60,8 +60,8 @@ export default class Picker extends Component {
     autoFocus: PropTypes.bool,
     id: PropTypes.string,
     inputIcon: PropTypes.node,
-    clearIcon: PropTypes.node,
-  };
+    clearIcon: PropTypes.node
+  }
 
   static defaultProps = {
     clearText: 'clear',
@@ -93,89 +93,102 @@ export default class Picker extends Component {
     addon: noop,
     use12Hours: false,
     focusOnOpen: false,
-    onKeyDown: noop,
-  };
+    onKeyDown: noop
+  }
 
   constructor(props) {
-    super(props);
-    this.saveInputRef = refFn.bind(this, 'picker');
-    this.savePanelRef = refFn.bind(this, 'panelInstance');
-    const { defaultOpen, defaultValue, open = defaultOpen, value = defaultValue } = props;
+    super(props)
+    this.saveInputRef = refFn.bind(this, 'picker')
+    this.savePanelRef = refFn.bind(this, 'panelInstance')
+    const {
+      defaultOpen,
+      defaultValue,
+      open = defaultOpen,
+      value = defaultValue
+    } = props
     this.state = {
       open,
-      value,
-    };
+      value
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { value, open } = nextProps;
+    const { value, open } = nextProps
     if ('value' in nextProps) {
       this.setState({
-        value,
-      });
+        value
+      })
     }
     if (open !== undefined) {
-      this.setState({ open });
+      this.setState({ open })
     }
   }
 
   onPanelChange = value => {
-    this.setValue(value);
-  };
+    this.setValue(value)
+  }
 
   onAmPmChange = ampm => {
-    const { onAmPmChange } = this.props;
-    onAmPmChange(ampm);
-  };
+    const { onAmPmChange } = this.props
+    onAmPmChange(ampm)
+  }
 
   onClear = event => {
-    event.stopPropagation();
-    this.setValue(null);
-    this.setOpen(false);
-  };
+    event.stopPropagation()
+    this.setValue(null)
+    this.setOpen(false)
+  }
 
   onVisibleChange = open => {
-    this.setOpen(open);
-  };
+    this.setOpen(open)
+  }
 
   onEsc = () => {
-    this.setOpen(false);
-    this.focus();
-  };
+    this.setOpen(false)
+    this.focus()
+  }
 
   onKeyDown = e => {
     if (e.keyCode === 40) {
-      this.setOpen(true);
+      this.setOpen(true)
     }
-  };
+  }
 
   setValue(value) {
-    const { onChange } = this.props;
+    const { onChange } = this.props
     if (!('value' in this.props)) {
       this.setState({
-        value,
-      });
+        value
+      })
     }
-    onChange(value);
+    onChange(value)
   }
 
   getFormat() {
-    const { format, showHour, showMinute, showSecond, use12Hours } = this.props;
+    const { format, showHour, showMinute, showSecond, use12Hours } = this.props
     if (format) {
-      return format;
+      return format
     }
 
     if (use12Hours) {
-      const fmtString = [showHour ? 'h' : '', showMinute ? 'mm' : '', showSecond ? 'ss' : '']
+      const fmtString = [
+        showHour ? 'h' : '',
+        showMinute ? 'mm' : '',
+        showSecond ? 'ss' : ''
+      ]
         .filter(item => !!item)
-        .join(':');
+        .join(':')
 
-      return fmtString.concat(' a');
+      return fmtString.concat(' a')
     }
 
-    return [showHour ? 'HH' : '', showMinute ? 'mm' : '', showSecond ? 'ss' : '']
+    return [
+      showHour ? 'HH' : '',
+      showMinute ? 'mm' : '',
+      showSecond ? 'ss' : ''
+    ]
       .filter(item => !!item)
-      .join(':');
+      .join(':')
   }
 
   getPanelElement() {
@@ -199,9 +212,9 @@ export default class Picker extends Component {
       hourStep,
       minuteStep,
       secondStep,
-      clearIcon,
-    } = this.props;
-    const { value } = this.state;
+      clearIcon
+    } = this.props
+    const { value } = this.state
     return (
       <Panel
         clearText={clearText}
@@ -231,72 +244,80 @@ export default class Picker extends Component {
         onKeyDown={onKeyDown}
         clearIcon={clearIcon}
       />
-    );
+    )
   }
 
   getPopupClassName() {
-    const { showHour, showMinute, showSecond, use12Hours, prefixCls, popupClassName } = this.props;
-    let selectColumnCount = 0;
+    const {
+      showHour,
+      showMinute,
+      showSecond,
+      use12Hours,
+      prefixCls,
+      popupClassName
+    } = this.props
+    let selectColumnCount = 0
     if (showHour) {
-      selectColumnCount += 1;
+      selectColumnCount += 1
     }
     if (showMinute) {
-      selectColumnCount += 1;
+      selectColumnCount += 1
     }
     if (showSecond) {
-      selectColumnCount += 1;
+      selectColumnCount += 1
     }
     if (use12Hours) {
-      selectColumnCount += 1;
+      selectColumnCount += 1
     }
     // Keep it for old compatibility
     return classNames(
       popupClassName,
       {
-        [`${prefixCls}-panel-narrow`]: (!showHour || !showMinute || !showSecond) && !use12Hours,
+        [`${prefixCls}-panel-narrow`]:
+          (!showHour || !showMinute || !showSecond) && !use12Hours
       },
-      `${prefixCls}-panel-column-${selectColumnCount}`,
-    );
+      `${prefixCls}-panel-column-${selectColumnCount}`
+    )
   }
 
   setOpen(open) {
-    const { onOpen, onClose } = this.props;
-    const { open: currentOpen } = this.state;
+    const { onOpen, onClose } = this.props
+    const { open: currentOpen } = this.state
     if (currentOpen !== open) {
       if (!('open' in this.props)) {
-        this.setState({ open });
+        this.setState({ open })
       }
       if (open) {
-        onOpen({ open });
+        onOpen({ open })
       } else {
-        onClose({ open });
+        onClose({ open })
       }
     }
   }
 
   focus() {
-    this.picker.focus();
+    this.picker.focus()
   }
 
   blur() {
-    this.picker.blur();
+    this.picker.blur()
   }
 
   renderClearButton() {
-    const { value } = this.state;
-    const { prefixCls, allowEmpty, clearIcon, clearText, disabled } = this.props;
+    const { value } = this.state
+    const { prefixCls, allowEmpty, clearIcon, clearText, disabled } = this.props
     if (!allowEmpty || !value || disabled) {
-      return null;
+      return null
     }
 
     if (React.isValidElement(clearIcon)) {
-      const { onClick } = clearIcon.props || {};
+      const { onClick } = clearIcon.props || {}
       return React.cloneElement(clearIcon, {
         onClick: (...args) => {
-          if (onClick) onClick(...args);
-          this.onClear(...args);
-        },
-      });
+          if (onClick) onClick(...args)
+          this.onClear(...args)
+        }
+      })
     }
 
     return (
@@ -309,7 +330,7 @@ export default class Picker extends Component {
       >
         {clearIcon || <i className={`${prefixCls}-clear-icon`} />}
       </a>
-    );
+    )
   }
 
   render() {
@@ -331,10 +352,10 @@ export default class Picker extends Component {
       autoFocus,
       inputReadOnly,
       inputIcon,
-      popupStyle,
-    } = this.props;
-    const { open, value } = this.state;
-    const popupClassName = this.getPopupClassName();
+      popupStyle
+    } = this.props
+    const { open, value } = this.state
+    const popupClassName = this.getPopupClassName()
     return (
       <Trigger
         prefixCls={`${prefixCls}-panel`}
@@ -373,6 +394,6 @@ export default class Picker extends Component {
           {this.renderClearButton()}
         </span>
       </Trigger>
-    );
+    )
   }
 }

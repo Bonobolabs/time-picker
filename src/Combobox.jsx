@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Select from './Select';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Select from './Select'
 
 const formatOption = (option, disabledOptions) => {
-  let value = `${option}`;
+  let value = `${option}`
   if (option < 10) {
-    value = `0${option}`;
+    value = `0${option}`
   }
 
-  let disabled = false;
+  let disabled = false
   if (disabledOptions && disabledOptions.indexOf(option) >= 0) {
-    disabled = true;
+    disabled = true
   }
 
   return {
     value,
-    disabled,
-  };
-};
+    disabled
+  }
+}
 
 class Combobox extends Component {
   static propTypes = {
@@ -39,8 +39,8 @@ class Combobox extends Component {
     onCurrentSelectPanelChange: PropTypes.func,
     use12Hours: PropTypes.bool,
     onEsc: PropTypes.func,
-    isAM: PropTypes.bool,
-  };
+    isAM: PropTypes.bool
+  }
 
   onItemChange = (type, itemValue) => {
     const {
@@ -49,74 +49,83 @@ class Combobox extends Component {
       use12Hours,
       value: propValue,
       isAM,
-      onAmPmChange,
-    } = this.props;
-    const value = (propValue || defaultOpenValue).clone();
+      onAmPmChange
+    } = this.props
+    const value = (propValue || defaultOpenValue).clone()
 
     if (type === 'hour') {
       if (use12Hours) {
         if (isAM) {
-          value.hour(+itemValue % 12);
+          value.hour(+itemValue % 12)
         } else {
-          value.hour((+itemValue % 12) + 12);
+          value.hour((+itemValue % 12) + 12)
         }
       } else {
-        value.hour(+itemValue);
+        value.hour(+itemValue)
       }
     } else if (type === 'minute') {
-      value.minute(+itemValue);
+      value.minute(+itemValue)
     } else if (type === 'ampm') {
-      const ampm = itemValue.toUpperCase();
+      const ampm = itemValue.toUpperCase()
       if (use12Hours) {
         if (ampm === 'PM' && value.hour() < 12) {
-          value.hour((value.hour() % 12) + 12);
+          value.hour((value.hour() % 12) + 12)
         }
 
         if (ampm === 'AM') {
           if (value.hour() >= 12) {
-            value.hour(value.hour() - 12);
+            value.hour(value.hour() - 12)
           }
         }
       }
-      onAmPmChange(ampm);
+      onAmPmChange(ampm)
     } else {
-      value.second(+itemValue);
+      value.second(+itemValue)
     }
-    onChange(value);
-  };
+    onChange(value)
+  }
 
   onEnterSelectPanel = range => {
-    const { onCurrentSelectPanelChange } = this.props;
-    onCurrentSelectPanelChange(range);
-  };
+    const { onCurrentSelectPanelChange } = this.props
+    onCurrentSelectPanelChange(range)
+  }
 
   getHourSelect(hour) {
-    const { prefixCls, hourOptions, disabledHours, showHour, use12Hours, onEsc } = this.props;
+    const {
+      prefixCls,
+      hourOptions,
+      disabledHours,
+      showHour,
+      use12Hours,
+      onEsc
+    } = this.props
     if (!showHour) {
-      return null;
+      return null
     }
-    const disabledOptions = disabledHours();
-    let hourOptionsAdj;
-    let hourAdj;
+    const disabledOptions = disabledHours()
+    let hourOptionsAdj
+    let hourAdj
     if (use12Hours) {
-      hourOptionsAdj = [12].concat(hourOptions.filter(h => h < 12 && h > 0));
-      hourAdj = hour % 12 || 12;
+      hourOptionsAdj = [12].concat(hourOptions.filter(h => h < 12 && h > 0))
+      hourAdj = hour % 12 || 12
     } else {
-      hourOptionsAdj = hourOptions;
-      hourAdj = hour;
+      hourOptionsAdj = hourOptions
+      hourAdj = hour
     }
 
     return (
       <Select
         prefixCls={prefixCls}
-        options={hourOptionsAdj.map(option => formatOption(option, disabledOptions))}
+        options={hourOptionsAdj.map(option =>
+          formatOption(option, disabledOptions)
+        )}
         selectedIndex={hourOptionsAdj.indexOf(hourAdj)}
         type="hour"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('hour')}
         onEsc={onEsc}
       />
-    );
+    )
   }
 
   getMinuteSelect(minute) {
@@ -127,25 +136,27 @@ class Combobox extends Component {
       defaultOpenValue,
       showMinute,
       value: propValue,
-      onEsc,
-    } = this.props;
+      onEsc
+    } = this.props
     if (!showMinute) {
-      return null;
+      return null
     }
-    const value = propValue || defaultOpenValue;
-    const disabledOptions = disabledMinutes(value.hour());
+    const value = propValue || defaultOpenValue
+    const disabledOptions = disabledMinutes(value.hour())
 
     return (
       <Select
         prefixCls={prefixCls}
-        options={minuteOptions.map(option => formatOption(option, disabledOptions))}
+        options={minuteOptions.map(option =>
+          formatOption(option, disabledOptions)
+        )}
         selectedIndex={minuteOptions.indexOf(minute)}
         type="minute"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('minute')}
         onEsc={onEsc}
       />
-    );
+    )
   }
 
   getSecondSelect(second) {
@@ -156,38 +167,40 @@ class Combobox extends Component {
       showSecond,
       defaultOpenValue,
       value: propValue,
-      onEsc,
-    } = this.props;
+      onEsc
+    } = this.props
     if (!showSecond) {
-      return null;
+      return null
     }
-    const value = propValue || defaultOpenValue;
-    const disabledOptions = disabledSeconds(value.hour(), value.minute());
+    const value = propValue || defaultOpenValue
+    const disabledOptions = disabledSeconds(value.hour(), value.minute())
 
     return (
       <Select
         prefixCls={prefixCls}
-        options={secondOptions.map(option => formatOption(option, disabledOptions))}
+        options={secondOptions.map(option =>
+          formatOption(option, disabledOptions)
+        )}
         selectedIndex={secondOptions.indexOf(second)}
         type="second"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('second')}
         onEsc={onEsc}
       />
-    );
+    )
   }
 
   getAMPMSelect() {
-    const { prefixCls, use12Hours, format, isAM, onEsc } = this.props;
+    const { prefixCls, use12Hours, format, isAM, onEsc } = this.props
     if (!use12Hours) {
-      return null;
+      return null
     }
 
     const AMPMOptions = ['am', 'pm'] // If format has A char, then we should uppercase AM/PM
       .map(c => (format.match(/\sA/) ? c.toUpperCase() : c))
-      .map(c => ({ value: c }));
+      .map(c => ({ value: c }))
 
-    const selected = isAM ? 0 : 1;
+    const selected = isAM ? 0 : 1
 
     return (
       <Select
@@ -199,12 +212,12 @@ class Combobox extends Component {
         onMouseEnter={() => this.onEnterSelectPanel('ampm')}
         onEsc={onEsc}
       />
-    );
+    )
   }
 
   render() {
-    const { prefixCls, defaultOpenValue, value: propValue } = this.props;
-    const value = propValue || defaultOpenValue;
+    const { prefixCls, defaultOpenValue, value: propValue } = this.props
+    const value = propValue || defaultOpenValue
     return (
       <div className={`${prefixCls}-combobox`}>
         {this.getHourSelect(value.hour())}
@@ -212,8 +225,8 @@ class Combobox extends Component {
         {this.getSecondSelect(value.second())}
         {this.getAMPMSelect(value.hour())}
       </div>
-    );
+    )
   }
 }
 
-export default Combobox;
+export default Combobox

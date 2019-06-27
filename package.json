@@ -14,7 +14,8 @@
     "storybook": "start-storybook -p 9002 -c .storybook",
     "build-storybook": "build-storybook -c .storybook",
     "build": "BABEL_ENV=cjs babel src/ -d lib/ --copy-files",
-    "prepare": "yarn run build"
+    "prepare": "yarn run build",
+    "prettify": "prettier --write '{./,__{tests,mocks}__}/**/*.+(js|jsx)'"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
