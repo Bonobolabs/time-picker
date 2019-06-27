@@ -155,6 +155,8 @@ class Header extends Component {
         placeholder={placeholder}
         onChange={this.onInputChange}
         readOnly={!!inputReadOnly}
+        aria-live="polite"
+        aria-invalid={invalid}
       />
     )
   }
