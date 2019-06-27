@@ -56,11 +56,25 @@ class Select extends Component {
     onSelect(type, value)
   }
 
+  getOptionLabel(value) {
+    // 01 -> 1
+    // 30 -> 30
+    const number = parseInt(value, 10)
+
+    if (isNaN(number)) {
+      // am -> AM
+      return value.toUpperCase()
+    }
+
+    return number
+  }
+
   getOptions() {
     const { options, selectedIndex, prefixCls, onEsc } = this.props
     return options.map((item, index) => {
+      const selected = selectedIndex === index
       const cls = classNames({
-        [`${prefixCls}-select-option-selected`]: selectedIndex === index,
+        [`${prefixCls}-select-option-selected`]: selected,
         [`${prefixCls}-select-option-disabled`]: item.disabled
       })
       const onClick = item.disabled
@@ -75,13 +89,15 @@ class Select extends Component {
 
       return (
         <li
-          role="button"
+          role="radio"
           onClick={onClick}
           className={cls}
           key={index}
           disabled={item.disabled}
           tabIndex="0"
           onKeyDown={onKeyDown}
+          aria-checked={selected}
+          aria-label={this.getOptionLabel(item.value)}
         >
           {item.value}
         </li>
