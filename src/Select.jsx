@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDom from 'react-dom'
+import styled from 'styled-components'
 import classNames from 'classnames'
 import raf from 'raf'
 
@@ -23,12 +24,17 @@ const scrollTo = (element, to, duration) => {
   })
 }
 
+const Column = styled.div`
+  flex: 1;
+`
+
 class Select extends Component {
   static propTypes = {
     prefixCls: PropTypes.string,
     options: PropTypes.array,
     selectedIndex: PropTypes.number,
     type: PropTypes.string,
+    label: PropTypes.string,
     onSelect: PropTypes.func,
     onMouseEnter: PropTypes.func
   }
@@ -97,7 +103,7 @@ class Select extends Component {
           className={cls}
           key={index}
           disabled={item.disabled}
-          tabIndex="0"
+          tabIndex={0}
           onKeyDown={onKeyDown}
           aria-checked={selected}
           aria-label={this.getOptionLabel(item.value)}
@@ -149,12 +155,11 @@ class Select extends Component {
       [`${prefixCls}-select-active`]: active
     })
     return (
-      <div
+      <Column
         className={cls}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-      </div>
         <ul
           role="radiogroup"
           aria-label={`Select ${label}`}
@@ -162,6 +167,7 @@ class Select extends Component {
         >
           {this.getOptions()}
         </ul>
+      </Column>
     )
   }
 }

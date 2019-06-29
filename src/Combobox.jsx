@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import Select from './Select'
 
 const formatOption = (option, disabledOptions) => {
@@ -18,6 +19,11 @@ const formatOption = (option, disabledOptions) => {
     disabled
   }
 }
+
+const Columns = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 
 class Combobox extends Component {
   static propTypes = {
@@ -223,12 +229,12 @@ class Combobox extends Component {
     const { prefixCls, defaultOpenValue, value: propValue } = this.props
     const value = propValue || defaultOpenValue
     return (
-      <div className={`${prefixCls}-combobox`}>
+      <Columns className={`${prefixCls}-combobox`}>
         {this.getHourSelect(value.hour())}
         {this.getMinuteSelect(value.minute())}
         {this.getSecondSelect(value.second())}
         {this.getAMPMSelect(value.hour())}
-      </div>
+      </Columns>
     )
   }
 }

@@ -135,6 +135,7 @@ export default class Picker extends Component {
     this.setOpen(open)
   }
 
+  closePanel = () => {
     this.setOpen(false)
     this.focus()
   }
@@ -236,39 +237,6 @@ export default class Picker extends Component {
     )
   }
 
-  getPopupClassName() {
-    const {
-      showHour,
-      showMinute,
-      showSecond,
-      use12Hours,
-      prefixCls,
-      popupClassName
-    } = this.props
-    let selectColumnCount = 0
-    if (showHour) {
-      selectColumnCount += 1
-    }
-    if (showMinute) {
-      selectColumnCount += 1
-    }
-    if (showSecond) {
-      selectColumnCount += 1
-    }
-    if (use12Hours) {
-      selectColumnCount += 1
-    }
-    // Keep it for old compatibility
-    return classNames(
-      popupClassName,
-      {
-        [`${prefixCls}-panel-narrow`]:
-          (!showHour || !showMinute || !showSecond) && !use12Hours
-      },
-      `${prefixCls}-panel-column-${selectColumnCount}`
-    )
-  }
-
   setOpen(open) {
     const { onOpen, onClose } = this.props
     const { open: currentOpen } = this.state
@@ -328,10 +296,8 @@ export default class Picker extends Component {
       placeholder,
       id,
       disabled,
-      transitionName,
       style,
       className,
-      getPopupContainer,
       name,
       autoComplete,
       onFocus,
@@ -342,30 +308,28 @@ export default class Picker extends Component {
       popupStyle
     } = this.props
     const { open, value } = this.state
-    const popupClassName = this.getPopupClassName()
     return (
       // <Trigger
-      //   prefixCls={`${prefixCls}-panel`}
+      //   prefixCls={}
       //   popupClassName={popupClassName}
       //   popupStyle={popupStyle}
       //   popup={this.getPanelElement()}
-      //   builtinPlacements={placements}
-      //   popupPlacement={placement}
-      //   action={disabled ? [] : ['click']}
-      //   destroyPopupOnHide
-      //   getPopupContainer={getPopupContainer}
-      //   popupTransitionName={transitionName}
-      //   popupVisible={open}
       //   onPopupVisibleChange={this.onVisibleChange}
       // >
       <div>
-        {open ? (
-          <div className={popupClassName}> {this.getPanelElement()} </div>
-        ) : null}
+        {open ? this.getPanelElement() : null}
         <span
           className={classNames(prefixCls, className)}
           style={style}
           onClick={() => this.setOpen(true)}
+          onKeyDown={e => {
+            if (e.keyCode === 13 || e.keyCode === 32) {
+              // enter or space
+              this.setOpen(true)
+              e.preventDefault()
+              e.stopPropagation()
+            }
+          }}
         >
           <input
             className={`${prefixCls}-input`}
