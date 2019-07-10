@@ -9,7 +9,6 @@ class Header extends Component {
     prefixCls: PropTypes.string,
     disabledDate: PropTypes.func,
     placeholder: PropTypes.string,
-    clearText: PropTypes.string,
     value: PropTypes.object,
     inputReadOnly: PropTypes.bool,
     hourOptions: PropTypes.array,
@@ -21,8 +20,7 @@ class Header extends Component {
     onChange: PropTypes.func,
     defaultOpenValue: PropTypes.object,
     currentSelectPanel: PropTypes.string,
-    onKeyDown: PropTypes.func,
-    clearIcon: PropTypes.node
+    onKeyDown: PropTypes.func
   }
 
   static defaultProps = {
