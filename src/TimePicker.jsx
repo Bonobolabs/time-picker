@@ -249,11 +249,13 @@ export default class Picker extends Component {
   }
 
   focus() {
-    this.saveInputRef.current.focus()
+    const el = this.saveInputRef.current
+    if (el) el.focus()
   }
 
   blur() {
-    this.saveInputRef.current.blur()
+    const el = this.saveInputRef.current
+    if (el) el.blur()
   }
 
   render() {
