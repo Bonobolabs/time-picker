@@ -8,10 +8,6 @@ import Panel from './Panel'
 
 function noop() {}
 
-function refFn(field, component) {
-  this[field] = component
-}
-
 export default class Picker extends Component {
   static propTypes = {
     prefixCls: PropTypes.string,
@@ -52,7 +48,7 @@ export default class Picker extends Component {
     secondStep: PropTypes.number,
     onKeyDown: PropTypes.func,
     autoFocus: PropTypes.bool,
-    id: PropTypes.string,
+    id: PropTypes.string
   }
 
   static defaultProps = {
@@ -86,8 +82,8 @@ export default class Picker extends Component {
 
   constructor(props) {
     super(props)
-    this.saveInputRef = refFn.bind(this, 'picker')
-    this.savePanelRef = refFn.bind(this, 'panelInstance')
+    this.saveInputRef = React.createRef()
+    this.savePanelRef = React.createRef()
     const {
       defaultOpen,
       defaultValue,
@@ -245,11 +241,11 @@ export default class Picker extends Component {
   }
 
   focus() {
-    this.picker.focus()
+    this.saveInputRef.current.focus()
   }
 
   blur() {
-    this.picker.blur()
+    this.saveInputRef.current.blur()
   }
 
   render() {
