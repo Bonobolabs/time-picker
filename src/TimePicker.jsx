@@ -1,12 +1,26 @@
 /* eslint jsx-a11y/no-autofocus: 0 */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import Trigger from 'rc-trigger'
 import moment from 'moment'
+import styled from 'styled-components'
 import classNames from 'classnames'
 import Panel from './Panel'
 
 function noop() {}
+
+const TimeDisplay = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const TimeText = styled.div`
+  font-size: 16px;
+`
+
+const AMPMText = styled.div`
+  font-size: 12px;
+  text-transform: uppercase;
+`
 
 export default class Picker extends Component {
   static propTypes = {
@@ -25,10 +39,8 @@ export default class Picker extends Component {
     showHour: PropTypes.bool,
     showMinute: PropTypes.bool,
     showSecond: PropTypes.bool,
-    style: PropTypes.object,
     className: PropTypes.string,
     popupClassName: PropTypes.string,
-    popupStyle: PropTypes.object,
     disabledHours: PropTypes.func,
     disabledMinutes: PropTypes.func,
     disabledSeconds: PropTypes.func,
@@ -41,13 +53,11 @@ export default class Picker extends Component {
     onBlur: PropTypes.func,
     addon: PropTypes.func,
     name: PropTypes.string,
-    autoComplete: PropTypes.string,
     use12Hours: PropTypes.bool,
     hourStep: PropTypes.number,
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
     onKeyDown: PropTypes.func,
-    autoFocus: PropTypes.bool,
     id: PropTypes.string
   }
 
@@ -55,10 +65,8 @@ export default class Picker extends Component {
     prefixCls: 'rc-time-picker',
     defaultOpen: false,
     inputReadOnly: false,
-    style: {},
     className: '',
     popupClassName: '',
-    popupStyle: {},
     id: '',
     defaultOpenValue: moment(),
     allowEmpty: true,
@@ -148,7 +156,7 @@ export default class Picker extends Component {
     onChange(value)
   }
 
-  getFormat() {
+  getFormat(includeAMPM = true) {
     const { format, showHour, showMinute, showSecond, use12Hours } = this.props
     if (format) {
       return format
@@ -163,7 +171,7 @@ export default class Picker extends Component {
         .filter(item => !!item)
         .join(':')
 
-      return fmtString.concat(' a')
+      return includeAMPM ? fmtString.concat(' a') : fmtString
     }
 
     return [
@@ -254,58 +262,40 @@ export default class Picker extends Component {
       placeholder,
       id,
       disabled,
-      style,
       className,
       name,
-      autoComplete,
-      onFocus,
-      onBlur,
-      autoFocus,
-      inputReadOnly,
-      popupStyle
+
+      inputReadOnly
     } = this.props
     const { open, value } = this.state
     return (
-      // <Trigger
-      //   prefixCls={}
-      //   popupClassName={popupClassName}
-      //   popupStyle={popupStyle}
-      //   popup={this.getPanelElement()}
-      //   onPopupVisibleChange={this.onVisibleChange}
-      // >
-      <div class={`${prefixCls}-wrapper`}>
-        {open ? this.getPanelElement() : null}
-        <span
-          className={classNames(prefixCls, className)}
-          style={style}
-          onClick={() => this.setOpen(true)}
-          onKeyDown={e => {
-            if (e.keyCode === 13 || e.keyCode === 32) {
-              // enter or space
-              this.setOpen(true)
-              e.preventDefault()
-              e.stopPropagation()
-            }
-          }}
-        >
-          <input
+      <div className={`${prefixCls}-wrapper`}>
+        {open ? (
+          this.getPanelElement()
+        ) : (
+          <TimeDisplay
+            tabIndex={0}
             className={`${prefixCls}-input`}
-            ref={this.saveInputRef}
-            type="text"
-            placeholder={placeholder}
-            name={name}
-            onKeyDown={this.onKeyDown}
+            onClick={() => this.setOpen(true)}
+            onKeyDown={e => {
+              if (e.keyCode === 13 || e.keyCode === 32) {
+                // enter or space
+                this.setOpen(true)
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            }}
             disabled={disabled}
-            value={(value && value.format(this.getFormat())) || ''}
-            autoComplete={autoComplete}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            autoFocus={autoFocus}
-            onChange={noop}
-            readOnly={!!inputReadOnly}
-            id={id}
-          />
-        </span>
+            ref={this.saveInputRef}
+          >
+            <TimeText className={`${prefixCls}-input-time`}>
+              {value ? value.format(this.getFormat(false)) : ''}
+            </TimeText>
+            <AMPMText className={`${prefixCls}-input-ampm`}>
+              &nbsp;{value ? value.format('a') : ''}
+            </AMPMText>
+          </TimeDisplay>
+        )}
       </div>
     )
   }
