@@ -53,7 +53,6 @@ export default class Picker extends Component {
     onKeyDown: PropTypes.func,
     autoFocus: PropTypes.bool,
     id: PropTypes.string,
-    inputIcon: PropTypes.node
   }
 
   static defaultProps = {
@@ -267,7 +266,6 @@ export default class Picker extends Component {
       onBlur,
       autoFocus,
       inputReadOnly,
-      inputIcon,
       popupStyle
     } = this.props
     const { open, value } = this.state
@@ -279,7 +277,7 @@ export default class Picker extends Component {
       //   popup={this.getPanelElement()}
       //   onPopupVisibleChange={this.onVisibleChange}
       // >
-      <div>
+      <div class={`${prefixCls}-wrapper`}>
         {open ? this.getPanelElement() : null}
         <span
           className={classNames(prefixCls, className)}
