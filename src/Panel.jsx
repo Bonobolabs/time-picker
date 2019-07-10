@@ -68,7 +68,7 @@ class Panel extends Component {
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
     addon: PropTypes.func,
-    onKeyDown: PropTypes.func,
+    onKeyDown: PropTypes.func
   }
 
   static defaultProps = {
@@ -158,7 +158,7 @@ class Panel extends Component {
       hourStep,
       minuteStep,
       secondStep,
-      inputReadOnly,
+      inputReadOnly
     } = this.props
     const { value, currentSelectPanel } = this.state
     const disabledHourOptions = this.disabledHours()
