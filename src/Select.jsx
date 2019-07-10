@@ -26,6 +26,37 @@ const scrollTo = (element, to, duration) => {
 
 const Column = styled.div`
   flex: 1;
+
+  /* Pos rel needed to make offsetTop work
+  used in scrolling to selected option */
+  position: relative;
+  overflow-y: auto;
+  max-height: 12em;
+
+  ul {
+    list-style: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* padding: 0 0 0 16px; */
+    /* width: 100%; */
+    height: 24px;
+    line-height: 24px;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background: #edfaff;
+    }
+  }
 `
 
 class Select extends Component {
@@ -41,6 +72,12 @@ class Select extends Component {
 
   state = {
     active: false
+  }
+
+  constructor(props) {
+    super(props)
+    this.selectRef = React.createRef()
+    this.listRef = React.createRef()
   }
 
   componentDidMount() {
@@ -124,15 +161,14 @@ class Select extends Component {
     this.setState({ active: false })
   }
 
-  saveList = node => {
-    this.list = node
-  }
+  // saveList = node => {
+  //   this.list = node
+  // }
 
   scrollToSelected(duration) {
     // move to selected item
     const { selectedIndex } = this.props
-    const select = ReactDom.findDOMNode(this)
-    const list = ReactDom.findDOMNode(this.list)
+    const list = this.listRef.current
     if (!list) {
       return
     }
@@ -142,7 +178,8 @@ class Select extends Component {
     }
     const topOption = list.children[index]
     const to = topOption.offsetTop
-    scrollTo(select, to, duration)
+    console.log('Scrolling to', list, selectedIndex, to)
+    scrollTo(this.selectRef.current, to, duration)
   }
 
   render() {
@@ -159,12 +196,9 @@ class Select extends Component {
         className={cls}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        ref={this.selectRef}
       >
-        <ul
-          role="radiogroup"
-          aria-label={`Select ${label}`}
-          ref={this.saveList}
-        >
+        <ul role="radiogroup" aria-label={`Select ${label}`} ref={this.listRef}>
           {this.getOptions()}
         </ul>
       </Column>
