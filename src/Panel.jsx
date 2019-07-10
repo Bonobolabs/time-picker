@@ -46,7 +46,6 @@ function toNearestValidTime(time, hourOptions, minuteOptions, secondOptions) {
 
 class Panel extends Component {
   static propTypes = {
-    clearText: PropTypes.string,
     prefixCls: PropTypes.string,
     className: PropTypes.string,
     defaultOpenValue: PropTypes.object,
@@ -70,7 +69,6 @@ class Panel extends Component {
     secondStep: PropTypes.number,
     addon: PropTypes.func,
     onKeyDown: PropTypes.func,
-    clearIcon: PropTypes.node
   }
 
   static defaultProps = {
@@ -153,7 +151,6 @@ class Panel extends Component {
       showSecond,
       format,
       defaultOpenValue,
-      clearText,
       closePanel,
       addon,
       use12Hours,
@@ -162,7 +159,6 @@ class Panel extends Component {
       minuteStep,
       secondStep,
       inputReadOnly,
-      clearIcon
     } = this.props
     const { value, currentSelectPanel } = this.state
     const disabledHourOptions = this.disabledHours()
@@ -207,7 +203,6 @@ class Panel extends Component {
       >
         <div className={classNames(className, prefixCls)}>
           <Header
-            clearText={clearText}
             prefixCls={prefixCls}
             defaultOpenValue={validDefaultOpenValue}
             value={value}
@@ -223,7 +218,6 @@ class Panel extends Component {
             onChange={this.onChange}
             onKeyDown={onKeyDown}
             inputReadOnly={inputReadOnly}
-            clearIcon={clearIcon}
           />
           <Combobox
             prefixCls={prefixCls}

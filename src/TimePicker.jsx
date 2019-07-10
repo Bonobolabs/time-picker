@@ -15,7 +15,6 @@ function refFn(field, component) {
 export default class Picker extends Component {
   static propTypes = {
     prefixCls: PropTypes.string,
-    clearText: PropTypes.string,
     value: PropTypes.object,
     defaultOpenValue: PropTypes.object,
     inputReadOnly: PropTypes.bool,
@@ -54,12 +53,10 @@ export default class Picker extends Component {
     onKeyDown: PropTypes.func,
     autoFocus: PropTypes.bool,
     id: PropTypes.string,
-    inputIcon: PropTypes.node,
-    clearIcon: PropTypes.node
+    inputIcon: PropTypes.node
   }
 
   static defaultProps = {
-    clearText: 'clear',
     prefixCls: 'rc-time-picker',
     defaultOpen: false,
     inputReadOnly: false,
@@ -125,11 +122,11 @@ export default class Picker extends Component {
     onAmPmChange(ampm)
   }
 
-  onClear = event => {
-    event.stopPropagation()
-    this.setValue(null)
-    this.setOpen(false)
-  }
+  // onClear = event => {
+  //   event.stopPropagation()
+  //   this.setValue(null)
+  //   this.setOpen(false)
+  // }
 
   onVisibleChange = open => {
     this.setOpen(open)
@@ -196,19 +193,16 @@ export default class Picker extends Component {
       showMinute,
       showSecond,
       defaultOpenValue,
-      clearText,
       addon,
       use12Hours,
       onKeyDown,
       hourStep,
       minuteStep,
-      secondStep,
-      clearIcon
+      secondStep
     } = this.props
     const { value } = this.state
     return (
       <Panel
-        clearText={clearText}
         prefixCls={`${prefixCls}-panel`}
         ref={this.savePanelRef}
         value={value}
@@ -232,7 +226,6 @@ export default class Picker extends Component {
         secondStep={secondStep}
         addon={addon}
         onKeyDown={onKeyDown}
-        clearIcon={clearIcon}
       />
     )
   }
@@ -258,36 +251,6 @@ export default class Picker extends Component {
 
   blur() {
     this.picker.blur()
-  }
-
-  renderClearButton() {
-    const { value } = this.state
-    const { prefixCls, allowEmpty, clearIcon, clearText, disabled } = this.props
-    if (!allowEmpty || !value || disabled) {
-      return null
-    }
-
-    if (React.isValidElement(clearIcon)) {
-      const { onClick } = clearIcon.props || {}
-      return React.cloneElement(clearIcon, {
-        onClick: (...args) => {
-          if (onClick) onClick(...args)
-          this.onClear(...args)
-        }
-      })
-    }
-
-    return (
-      <a
-        role="button"
-        className={`${prefixCls}-clear`}
-        title={clearText}
-        onClick={this.onClear}
-        tabIndex={0}
-      >
-        {clearIcon || <i className={`${prefixCls}-clear-icon`} />}
-      </a>
-    )
   }
 
   render() {
@@ -348,8 +311,6 @@ export default class Picker extends Component {
             readOnly={!!inputReadOnly}
             id={id}
           />
-          {inputIcon || <span className={`${prefixCls}-icon`} />}
-          {this.renderClearButton()}
         </span>
       </div>
     )
