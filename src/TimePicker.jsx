@@ -33,7 +33,6 @@ export default class Picker extends Component {
     defaultValue: PropTypes.object,
     open: PropTypes.bool,
     defaultOpen: PropTypes.bool,
-    getPopupContainer: PropTypes.func,
     placeholder: PropTypes.string,
     format: PropTypes.string,
     showHour: PropTypes.bool,
@@ -266,12 +265,11 @@ export default class Picker extends Component {
       disabled,
       className,
       name,
-
       inputReadOnly
     } = this.props
     const { open, value } = this.state
     return (
-      <div className={`${prefixCls}-wrapper`}>
+      <div className={`${prefixCls}-wrapper ${className}`}>
         {open ? (
           this.getPanelElement()
         ) : (
