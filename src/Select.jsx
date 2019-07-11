@@ -70,10 +70,6 @@ class Select extends Component {
     onMouseEnter: PropTypes.func
   }
 
-  state = {
-    active: false
-  }
-
   constructor(props) {
     super(props)
     this.selectRef = React.createRef()
@@ -151,19 +147,9 @@ class Select extends Component {
     })
   }
 
-  handleMouseEnter = e => {
-    const { onMouseEnter } = this.props
-    this.setState({ active: true })
-    onMouseEnter(e)
+
   }
 
-  handleMouseLeave = () => {
-    this.setState({ active: false })
-  }
-
-  // saveList = node => {
-  //   this.list = node
-  // }
 
   scrollToSelected(duration) {
     // move to selected item
@@ -184,18 +170,12 @@ class Select extends Component {
 
   render() {
     const { prefixCls, options, label } = this.props
-    const { active } = this.state
     if (options.length === 0) {
       return null
     }
-    const cls = classNames(`${prefixCls}-select`, {
-      [`${prefixCls}-select-active`]: active
-    })
     return (
       <Column
         className={cls}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
         ref={this.selectRef}
       >
         <ul role="radiogroup" aria-label={`Select ${label}`} ref={this.listRef}>
