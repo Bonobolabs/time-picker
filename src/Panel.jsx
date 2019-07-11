@@ -112,10 +112,6 @@ class Panel extends Component {
     onAmPmChange(ampm)
   }
 
-  onCurrentSelectPanelChange = currentSelectPanel => {
-    this.setState({ currentSelectPanel })
-  }
-
   disabledHours = () => {
     const { use12Hours, disabledHours } = this.props
     let disabledOptions = disabledHours()
@@ -160,7 +156,7 @@ class Panel extends Component {
       secondStep,
       inputReadOnly
     } = this.props
-    const { value, currentSelectPanel } = this.state
+    const { value } = this.state
     const disabledHourOptions = this.disabledHours()
     const disabledMinuteOptions = disabledMinutes(value ? value.hour() : null)
     const disabledSecondOptions = disabledSeconds(
@@ -206,7 +202,6 @@ class Panel extends Component {
             prefixCls={prefixCls}
             defaultOpenValue={validDefaultOpenValue}
             value={value}
-            currentSelectPanel={currentSelectPanel}
             format={format}
             placeholder={placeholder}
             hourOptions={hourOptions}
@@ -235,7 +230,6 @@ class Panel extends Component {
             disabledHours={this.disabledHours}
             disabledMinutes={disabledMinutes}
             disabledSeconds={disabledSeconds}
-            onCurrentSelectPanelChange={this.onCurrentSelectPanelChange}
             use12Hours={use12Hours}
             isAM={this.isAM()}
           />

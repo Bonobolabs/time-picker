@@ -19,7 +19,6 @@ class Header extends Component {
     disabledSeconds: PropTypes.func,
     onChange: PropTypes.func,
     defaultOpenValue: PropTypes.object,
-    currentSelectPanel: PropTypes.string,
     onKeyDown: PropTypes.func
   }
 
