@@ -67,7 +67,8 @@ class Select extends Component {
     type: PropTypes.string,
     label: PropTypes.string,
     onSelect: PropTypes.func,
-    onMouseEnter: PropTypes.func
+    onMouseEnter: PropTypes.func,
+    focused: PropTypes.bool
   }
 
   constructor(props) {
@@ -82,10 +83,15 @@ class Select extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { selectedIndex } = this.props
+    const { selectedIndex, focused } = this.props
     // smooth scroll to selected option
     if (prevProps.selectedIndex !== selectedIndex) {
       this.scrollToSelected(120)
+    }
+    if (prevProps.focused !== focused && focused) {
+      // focus on selectedIndex
+      console.log('focusing on', this.props.type, selectedIndex)
+      this.changeFocusBy(0)
     }
   }
 
@@ -159,6 +165,7 @@ class Select extends Component {
       e.preventDefault()
       e.stopPropagation()
     }
+    this.props.onKeyDown(e)
 
     // left arrow	37
     // up arrow	38

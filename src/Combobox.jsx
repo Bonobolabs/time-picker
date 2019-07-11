@@ -46,6 +46,10 @@ class Combobox extends Component {
     isAM: PropTypes.bool
   }
 
+  state = {
+    selectFocusOn: null
+  }
+
   onItemChange = (type, itemValue) => {
     const {
       onChange,
@@ -121,6 +125,8 @@ class Combobox extends Component {
         type="hour"
         label="hour"
         onSelect={this.onItemChange}
+        onKeyDown={e => this.handleKeyDown('hour', e)}
+        focused={this.state.selectFocusOn === 'hour'}
       />
     )
   }
@@ -150,6 +156,8 @@ class Combobox extends Component {
         type="minute"
         label="minute"
         onSelect={this.onItemChange}
+        onKeyDown={e => this.handleKeyDown('minute', e)}
+        focused={this.state.selectFocusOn === 'minute'}
       />
     )
   }
@@ -179,6 +187,8 @@ class Combobox extends Component {
         type="second"
         label="second"
         onSelect={this.onItemChange}
+        onKeyDown={e => this.handleKeyDown('second', e)}
+        focused={this.state.selectFocusOn === 'second'}
       />
     )
   }
@@ -203,8 +213,59 @@ class Combobox extends Component {
         type="ampm"
         label="AM or PM"
         onSelect={this.onItemChange}
+        onKeyDown={e => this.handleKeyDown('ampm', e)}
+        focused={this.state.selectFocusOn === 'ampm'}
       />
     )
+  }
+
+  handleKeyDown = (currentType, e) => {
+    console.log('Keydown', currentType, e.keyCode)
+    if (e.keyCode === 39) {
+      // right arrow
+      this.changeFocusTo(currentType, 1)
+      e.preventDefault()
+      e.stopPropagation()
+    } else if (e.keyCode === 37) {
+      // left arrow
+      this.changeFocusTo(currentType, -1)
+      e.preventDefault()
+      e.stopPropagation()
+    }
+  }
+
+  getColumns = () => {
+    // get list of enabled columns (e.g. ['hour', 'minute', 'ampm'])
+    const { showHour, showMinute, showSecond, use12Hours } = this.props
+
+    return [
+      ['hour', showHour],
+      ['minute', showMinute],
+      ['second', showSecond],
+      ['ampm', use12Hours]
+    ]
+      .filter(([val, enabled]) => enabled)
+      .map(([val, enabled]) => val)
+  }
+
+  changeFocusTo(currentSelectType, offset) {
+    const columns = this.getColumns()
+
+    const currentIndex = columns.indexOf(currentSelectType)
+    let newIndex = currentIndex + offset
+
+    // bounds + wrap
+    if (newIndex < 0) {
+      newIndex = columns.length - 1
+    } else if (newIndex >= columns.length) {
+      newIndex = 0
+    }
+
+    const newFocusOn = columns[newIndex]
+
+    this.setState({ selectFocusOn: newFocusOn })
+
+    console.log({ newFocusOn })
   }
 
   render() {
