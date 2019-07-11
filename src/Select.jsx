@@ -147,9 +147,48 @@ class Select extends Component {
     })
   }
 
+  handleKeyDown = e => {
+    if (e.keyCode === 40) {
+      // down arrow
+      this.changeFocusBy(1)
+      e.preventDefault()
+      e.stopPropagation()
+    } else if (e.keyCode === 38) {
+      // up arrow
+      this.changeFocusBy(-1)
+      e.preventDefault()
+      e.stopPropagation()
+    }
 
+    // left arrow	37
+    // up arrow	38
+    // right arrow	39
+    // down arrow	40
   }
 
+  changeFocusBy(offset) {
+    const { options, selectedIndex } = this.props
+
+    // get new element index
+    let index = selectedIndex + offset
+    if (index < 0) {
+      index = options.length - 1
+    } else if (index >= options.length) {
+      index = 0
+    }
+
+    // get new value
+    const selectedOption = options[index]
+    this.onSelect(selectedOption.value)
+
+    // get new ref
+    const list = this.listRef.current
+    if (!list) {
+      return
+    }
+    const optionRef = list.children[index]
+    optionRef.focus()
+  }
 
   scrollToSelected(duration) {
     // move to selected item
@@ -175,7 +214,8 @@ class Select extends Component {
     }
     return (
       <Column
-        className={cls}
+        className={`${prefixCls}-select`}
+        onKeyDown={this.handleKeyDown}
         ref={this.selectRef}
       >
         <ul role="radiogroup" aria-label={`Select ${label}`} ref={this.listRef}>
