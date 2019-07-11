@@ -220,7 +220,6 @@ class Combobox extends Component {
   }
 
   handleKeyDown = (currentType, e) => {
-    console.log('Keydown', currentType, e.keyCode)
     if (e.keyCode === 39) {
       // right arrow
       this.changeFocusTo(currentType, 1)
@@ -262,10 +261,7 @@ class Combobox extends Component {
     }
 
     const newFocusOn = columns[newIndex]
-
     this.setState({ selectFocusOn: newFocusOn })
-
-    console.log({ newFocusOn })
   }
 
   render() {

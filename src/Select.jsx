@@ -90,7 +90,6 @@ class Select extends Component {
     }
     if (prevProps.focused !== focused && focused) {
       // focus on selectedIndex
-      console.log('focusing on', this.props.type, selectedIndex)
       this.changeFocusBy(0)
     }
   }
@@ -165,12 +164,8 @@ class Select extends Component {
       e.preventDefault()
       e.stopPropagation()
     }
+    // pass keydown to parent
     this.props.onKeyDown(e)
-
-    // left arrow	37
-    // up arrow	38
-    // right arrow	39
-    // down arrow	40
   }
 
   changeFocusBy(offset) {
@@ -210,7 +205,6 @@ class Select extends Component {
     }
     const topOption = list.children[index]
     const to = topOption.offsetTop
-    console.log('Scrolling to', list, selectedIndex, to)
     scrollTo(this.selectRef.current, to, duration)
   }
 
