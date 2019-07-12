@@ -24,7 +24,7 @@ This is an opinionated, simplified fork of [rc-time-picker](https://react-compon
   - change time and navigate between lists with arrow keys
 - focus trap
   - focus stays within open time picker panel and doesn't get lost to background content
-  - when the panel is expanded the input is focused
+  - when the panel is expanded the input is focused, and focus is returned when collapsed
 - uses ul/li elements with radiogroup/radio roles - so when you select hour 3 screenreader will read "3, radio, 1 of 12, Select hour, radio group".
   - This also allows for navigating between radio groups (from "Select hour" to "Select minute") in [Group mode](https://www.apple.com/voiceover/info/guide/_1133.html#vo27943).
   - `aria-checked` is used to indicate the currently selected element
