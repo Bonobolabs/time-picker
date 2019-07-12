@@ -10,7 +10,7 @@ This is an opinionated, simplified fork of [rc-time-picker](https://react-compon
   - uses styled components instead of less
   - uses flexbox for columns instead of floating & fixed widths
 - the panel now expands inline instead of popping above the content
-- in collapsed state the element is now a div (instead of an input). AM/PM is separated into a separate element:
+- in collapsed state the element is now a div (instead of an input). AM/PM is separated so it can be styled independently:
 
 ![Collapsed](./screenshots/collapsed.png)
 
