@@ -1,105 +1,82 @@
 # TimePicker
 
-React TimePicker
+An accessible and customisable React TimePicker.
 
-[![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
-[![Test coverage][codecov-image]][codecov-url]
-[![Dependencies](https://img.shields.io/david/react-component/time-picker.svg?style=flat-square)](https://david-dm.org/react-component/time-picker)
-[![DevDependencies](https://img.shields.io/david/dev/react-component/time-picker.svg?style=flat-square)](https://david-dm.org/react-component/time-picker?type=dev)
-[![npm download][download-image]][download-url]
+This is an opinionated, simplified fork of [rc-time-picker](https://react-component.github.io/time-picker/) with the following changes:
 
-[npm-image]: http://img.shields.io/npm/v/rc-time-picker.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/rc-time-picker
-[travis-image]: https://img.shields.io/travis/react-component/time-picker.svg?style=flat-square
-[travis-url]: https://travis-ci.org/react-component/time-picker
-[codecov-image]: https://codecov.io/gh/react-component/time-picker/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/react-component/time-picker
-[download-image]: https://img.shields.io/npm/dm/rc-time-picker.svg?style=flat-square
-[download-url]: https://npmjs.org/package/rc-time-picker
+### Styling
 
-example
---------
+- very minimal styling (see [codesandbox](https://codesandbox.io/s/styled-time-picker-13h6y) for example of how we're using it in our app)
+  - uses styled components instead of less
+  - uses flexbox for columns instead of floating & fixed widths
+- the panel now expands inline instead of popping above the content
+- in collapsed state the element is now a div (instead of an input). AM/PM is separated into a separate element:
 
-http://react-component.github.io/time-picker/
+![Collapsed](./screenshots/collapsed.png)
 
-install
--------
+![Expanded](./screenshots/expanded.png)
 
-```
-npm install rc-time-picker
-```
+### Accessibility improvements
 
-Usage
------
+- keyboard navigation
+  - press space/enter to open or select options
+  - press escape to close panel
+  - change time and navigate between lists with arrow keys
+- focus trap
+  - focus stays within open time picker panel and doesn't get lost to background content
+  - when the panel is expanded the input is focused
+- uses ul/li elements with radiogroup/radio roles - so when you select hour 3 screenreader will read "3, radio, 1 of 12, Select hour, radio group".
+  - This also allows for navigating between radio groups (from "Select hour" to "Select minute") in [Group mode](https://www.apple.com/voiceover/info/guide/_1133.html#vo27943).
+  - `aria-checked` is used to indicate the currently selected element
+- screen-reader friendly `aria-label`s with no leading zeros (so screenreader says "one" instead of "zero one"), and labels on radio groups (e.g. "Select AM or PM").
+- `aria-invalid` is used to indicate incorrectly formatted time (when entering time manually)
 
-```
-import TimePicker from 'rc-time-picker';
-import ReactDOM from 'react-dom';
-ReactDOM.render(<TimePicker />, container);
-```
+## Demo
 
-API
----
+![Demo](./screenshots/demo.gif)
 
-### TimePicker
+https://codesandbox.io/s/styled-time-picker-13h6y
 
-| Name                    | Type                              | Default | Description |
-|-------------------------|-----------------------------------|---------|-------------|
-| prefixCls               | String                            | 'rc-time-picker' | prefixCls of this component |
-| clearText               | String                            | 'clear' | clear tooltip of icon |
-| disabled                | Boolean                           | false   | whether picker is disabled |
-| allowEmpty              | Boolean                           | true | allow clearing text |
-| open                    | Boolean                           | false | current open state of picker. controlled prop |
-| defaultValue            | moment                            | null | default initial value |
-| defaultOpenValue        | moment                            | moment() | default open panel value, used to set utcOffset,locale if value/defaultValue absent |
-| value                   | moment                            | null | current value |
-| placeholder             | String                            | '' | time input's placeholder |
-| className               | String                            | '' | time picker className |
-| id                      | String                            | '' | time picker id |
-| popupClassName          | String                            | '' | time panel className |
-| popupStyle              | object                            | {} | customize popup style
-| showHour                | Boolean                           | true | whether show hour | |
-| showMinute              | Boolean                           | true | whether show minute |
-| showSecond              | Boolean                           | true | whether show second |
-| format                  | String                            | - | moment format |
-| disabledHours           | Function                          | - | disabled hour options |
-| disabledMinutes         | Function                          | - | disabled minute options |
-| disabledSeconds         | Function                          | - | disabled second options |
-| use12Hours              | Boolean                           | false | 12 hours display mode |
-| hideDisabledOptions     | Boolean                           | false | whether hide disabled options |
-| onChange                | Function                          | null | called when select a different value |
-| onAmPmChange            | Function                          | null | called when select an am/pm value |
-| addon                   | Function                          | - | called from timepicker panel to render some addon to its bottom, like an OK button. Receives panel instance as parameter, to be able to close it like `panel.close()`.|
-| placement               | String                            | bottomLeft | one of ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'] |
-| transitionName          | String                            | ''  |  |
-| name                    | String                            | - | sets the name of the generated input |
-| onOpen                  | Function({ open })                |   | when TimePicker panel is opened      |
-| onClose                 | Function({ open })                |   | when TimePicker panel is closed      |
-| hourStep                | Number                            | 1 | interval between hours in picker  |
-| minuteStep              | Number                            | 1 | interval between minutes in picker  |
-| secondStep              | Number                            | 1 | interval between seconds in picker  |
-| focusOnOpen             | Boolean                           | false | automatically focus the input when the picker opens |
-| inputReadOnly             | Boolean                           | false | set input to read only |
-| inputIcon             | ReactNode                           |  | specific the select icon. |
-| clearIcon             | ReactNode                           |  | specific the clear icon. |
+## Install
 
-## Test Case
-
-```
-npm test
-npm run chrome-test
+```bash
+npm install @bonobolabs/time-picker
 ```
 
-## Coverage
+or
 
+```bash
+yarn add @bonobolabs/time-picker
 ```
-npm run coverage
+
+## Usage
+
+```js
+import TimePicker from '@bonobolabs/time-picker'
+import ReactDOM from 'react-dom'
+import styled from 'styled-components'
+
+const StyledTimePicker = styled(TimePicker)`
+  /* your CSS here */
+`
+
+const App = () => (
+  <StyledTimePicker
+    showSecond={false} // hide seconds
+    use12Hours={true} // show AM/PM
+    value={moment()} // show current time
+    onChange={date =>
+      // on change log the updated time to the console
+      console.log(date.format('LTS'))
+    }
+  />
+)
+
+ReactDOM.render(<App />, container)
 ```
 
-open coverage/ dir
+See [TimePicker.jsx](./src/TimePicker.jsx) and [rc-time-picker docs](https://react-component.github.io/time-picker/#api) for options.
 
-License
--------
+## License
 
-rc-time-picker is released under the MIT license.
+MIT
