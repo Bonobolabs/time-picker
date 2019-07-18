@@ -69,6 +69,8 @@ const App = () => (
       // on change log the updated time to the console
       console.log(date.format('LTS'))
     }
+    // set a custom aria-label when collapsed
+    ariaLabelFunc={time => `A ${time} reminder is set, editable`}
   />
 )
 
