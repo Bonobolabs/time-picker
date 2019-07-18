@@ -57,7 +57,8 @@ export default class Picker extends Component {
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
     onKeyDown: PropTypes.func,
-    id: PropTypes.string
+    id: PropTypes.string,
+    ariaLabelFunc: PropTypes.func
   }
 
   static defaultProps = {
@@ -84,7 +85,8 @@ export default class Picker extends Component {
     onBlur: noop,
     addon: noop,
     use12Hours: false,
-    onKeyDown: noop
+    onKeyDown: noop,
+    ariaLabelFunc: noop
   }
 
   constructor(props) {
@@ -265,7 +267,8 @@ export default class Picker extends Component {
       disabled,
       className,
       name,
-      inputReadOnly
+      inputReadOnly,
+      ariaLabelFunc
     } = this.props
     const { open, value } = this.state
     return (
@@ -287,6 +290,8 @@ export default class Picker extends Component {
             }}
             disabled={disabled}
             ref={this.saveInputRef}
+            role="button"
+            aria-label={ariaLabelFunc(value.format())}
           >
             <TimeText className={`${prefixCls}-input-time`}>
               {value ? value.format(this.getFormat(false)) : ''}
