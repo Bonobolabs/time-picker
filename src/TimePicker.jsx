@@ -105,14 +105,12 @@ export default class Picker extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { value, open } = nextProps
-    if ('value' in nextProps) {
-      this.setState({
-        value
-      })
+  componentDidUpdate(prevProps) {
+    const { value, open } = this.props
+    if (value !== prevProps.value) {
+      this.setState({ value })
     }
-    if (open !== undefined) {
+    if (open !== undefined && open !== prevProps.value) {
       this.setState({ open })
     }
   }
