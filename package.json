@@ -1,6 +1,6 @@
 {
   "name": "@bonobolabs/time-picker",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Accessible and customisable React time picker",
   "homepage": "http://github.com/Bonobolabs/time-picker",
   "author": "alex@louden.com",
