@@ -44,5 +44,8 @@
     "raf": "^3.4.1",
     "storybook": "^1.0.0",
     "styled-components": "^4.3.2"
+  },
+  "volta": {
+    "node": "15.14.0"
   }
 }

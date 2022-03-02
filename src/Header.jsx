@@ -35,12 +35,15 @@ class Header extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { value, format } = nextProps
-    this.setState({
-      str: (value && value.format(format)) || '',
-      invalid: false
-    })
+  componentDidUpdate(prevProps) {
+    const { value, format } = this.props
+
+    if (value !== prevProps.value || format !== prevProps.format) {
+      this.setState({
+        str: value ? value.format(format) : '',
+        invalid: false
+      })
+    }
   }
 
   onInputChange = event => {

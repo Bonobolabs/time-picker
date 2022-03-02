@@ -92,9 +92,10 @@ class Panel extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const value = nextProps.value
-    if (value) {
+  componentDidUpdate(prevProps) {
+    const { value } = this.props
+
+    if (value !== prevProps.value) {
       this.setState({
         value
       })
