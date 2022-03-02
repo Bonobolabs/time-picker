@@ -40,7 +40,7 @@ class Header extends Component {
 
     if (value !== prevProps.value || format !== prevProps.format) {
       this.setState({
-        str: (value && value.format(format)) || '',
+        str: value ? value.format(format) : '',
         invalid: false
       })
     }
