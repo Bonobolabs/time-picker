@@ -11,7 +11,7 @@ import moment from 'moment'
 //   selectV2
 // } from '@storybook/addon-knobs/react'
 
-import TimePicker from '../src/'
+import TimePicker from '../src'
 
 storiesOf('Timepicker', module).add('First', () => (
   <TimePicker
