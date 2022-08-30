@@ -119,6 +119,12 @@ export default class Picker extends Component {
     this.setValue(value)
   }
 
+  onPanelKeyDown = e => {
+    if (e.keyCode === 13) {
+      this.props.onChange(this.state.value)
+    }
+  }
+
   onAmPmChange = ampm => {
     const { onAmPmChange } = this.props
     onAmPmChange(ampm)
@@ -227,7 +233,7 @@ export default class Picker extends Component {
         minuteStep={minuteStep}
         secondStep={secondStep}
         addon={addon}
-        onKeyDown={onKeyDown}
+        onKeyDown={this.onPanelKeyDown}
       />
     )
   }

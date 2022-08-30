@@ -141,7 +141,7 @@ class Header extends Component {
   }
 
   getInput() {
-    const { prefixCls, placeholder, inputReadOnly } = this.props
+    const { prefixCls, placeholder, inputReadOnly, onKeyDown } = this.props
     const { invalid, str } = this.state
     const invalidClass = invalid ? `${prefixCls}-input-invalid` : ''
     return (
@@ -150,7 +150,7 @@ class Header extends Component {
         ref={ref => {
           this.refInput = ref
         }}
-        onKeyDown={this.onKeyDown}
+        onKeyDown={onKeyDown}
         value={str}
         placeholder={placeholder}
         onChange={this.onInputChange}
