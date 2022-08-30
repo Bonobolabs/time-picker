@@ -19,7 +19,8 @@ storiesOf('Timepicker', module).add('First', () => (
     showSecond={false}
     // show AM/PM
     use12Hours={true}
-    // component manages state
-    defaultValue={moment()}
+    // default to now
+    value={moment()}
+    onChange={v => console.log('onchange', v)}
   />
 ))
