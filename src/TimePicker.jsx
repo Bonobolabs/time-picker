@@ -121,7 +121,12 @@ export default class Picker extends Component {
 
   onPanelKeyDown = e => {
     if (e.keyCode === 13) {
+      // return
       this.props.onChange(this.state.value)
+      this.closePanel()
+    } else if (e.keyCode === 27) {
+      // esc
+      this.closePanel()
     }
   }
 
