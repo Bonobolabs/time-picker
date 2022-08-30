@@ -77,18 +77,6 @@ class Header extends Component {
         .minute(parsed.minute())
         .second(parsed.second())
 
-      // if time value not allowed, response warning.
-      if (
-        hourOptions.indexOf(value.hour()) < 0 ||
-        minuteOptions.indexOf(value.minute()) < 0 ||
-        secondOptions.indexOf(value.second()) < 0
-      ) {
-        this.setState({
-          invalid: true
-        })
-        return
-      }
-
       // if time value is disabled, response warning.
       const disabledHourOptions = disabledHours()
       const disabledMinuteOptions = disabledMinutes(value.hour())
