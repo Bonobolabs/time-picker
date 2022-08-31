@@ -30,7 +30,7 @@ class Header extends Component {
     super(props)
     const { value, format } = props
     this.state = {
-      str: (value && value.format(format)) || '',
+      str: value ? value.format(format) : '',
       invalid: false
     }
   }

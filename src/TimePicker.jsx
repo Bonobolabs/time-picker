@@ -300,7 +300,11 @@ export default class Picker extends Component {
             disabled={disabled}
             ref={this.saveInputRef}
             role="button"
-            aria-label={ariaLabelFunc(value.format(this.getFormat()))}
+            aria-label={
+              value
+                ? ariaLabelFunc(value.format(this.getFormat()))
+                : 'No time set'
+            }
           >
             <TimeText className={`${prefixCls}-input-time`}>
               {value ? value.format(this.getFormat(false)) : ''}
