@@ -56,6 +56,7 @@ export default class Picker extends Component {
     hourStep: PropTypes.number,
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
+    allowStepInputOnly: PropTypes.bool,
     onKeyDown: PropTypes.func,
     id: PropTypes.string,
     ariaLabelFunc: PropTypes.func
@@ -73,6 +74,7 @@ export default class Picker extends Component {
     showHour: true,
     showMinute: true,
     showSecond: true,
+    allowStepInputOnly: true,
     disabledHours: noop,
     disabledMinutes: noop,
     disabledSeconds: noop,
@@ -211,8 +213,10 @@ export default class Picker extends Component {
       onKeyDown,
       hourStep,
       minuteStep,
-      secondStep
+      secondStep,
+      allowStepInputOnly
     } = this.props
+
     const { value } = this.state
     return (
       <Panel
@@ -237,6 +241,7 @@ export default class Picker extends Component {
         hourStep={hourStep}
         minuteStep={minuteStep}
         secondStep={secondStep}
+        allowStepInputOnly={allowStepInputOnly}
         addon={addon}
         onKeyDown={this.onPanelKeyDown}
       />

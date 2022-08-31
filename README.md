@@ -31,6 +31,11 @@ This is an opinionated, simplified fork of [rc-time-picker](https://react-compon
 - screen-reader friendly `aria-label`s with no leading zeros (so screenreader says "one" instead of "zero one"), and labels on radio groups (e.g. "Select AM or PM").
 - `aria-invalid` is used to indicate incorrectly formatted time (when entering time manually)
 
+### New fields
+
+- `allowStepInputOnly` (defaults to `true`) - only allow entering times that match shown times (`hourStep`, `minuteStep`, `secondStep`) into the input.
+  - Set to `false` to allow entering e.g. "1:23 pm", even if `minuteStep` is set to 15.
+
 ## Demo
 
 ![Demo](./screenshots/demo.gif)

@@ -23,7 +23,8 @@ class Header extends Component {
   }
 
   static defaultProps = {
-    inputReadOnly: false
+    inputReadOnly: false,
+    allowStepInputOnly: true
   }
 
   constructor(props) {
@@ -56,6 +57,7 @@ class Header extends Component {
       hourOptions,
       minuteOptions,
       secondOptions,
+      allowStepInputOnly,
       disabledHours,
       disabledMinutes,
       disabledSeconds,
@@ -66,6 +68,7 @@ class Header extends Component {
       const { value: originalValue } = this.props
       const value = this.getProtoValue().clone()
       const parsed = moment(str, format, true)
+
       if (!parsed.isValid()) {
         this.setState({
           invalid: true
@@ -76,6 +79,21 @@ class Header extends Component {
         .hour(parsed.hour())
         .minute(parsed.minute())
         .second(parsed.second())
+
+      // if time value not allowed
+      // (depends on allowStepInputOnly setting)
+      if (
+        allowStepInputOnly &&
+        (hourOptions.indexOf(value.hour()) < 0 ||
+          minuteOptions.indexOf(value.minute()) < 0 ||
+          secondOptions.indexOf(value.second()) < 0)
+      ) {
+        console.log('exiting, invalid')
+        this.setState({
+          invalid: true
+        })
+        return
+      }
 
       // if time value is disabled, response warning.
       const disabledHourOptions = disabledHours()

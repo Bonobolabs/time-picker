@@ -67,6 +67,7 @@ class Panel extends Component {
     hourStep: PropTypes.number,
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
+    allowStepInputOnly: PropTypes.bool,
     addon: PropTypes.func,
     onKeyDown: PropTypes.func
   }
@@ -82,7 +83,8 @@ class Panel extends Component {
     addon: noop,
     onKeyDown: noop,
     onAmPmChange: noop,
-    inputReadOnly: false
+    inputReadOnly: false,
+    allowStepInputOnly: true
   }
 
   constructor(props) {
@@ -155,6 +157,7 @@ class Panel extends Component {
       hourStep,
       minuteStep,
       secondStep,
+      allowStepInputOnly,
       inputReadOnly
     } = this.props
     const { value } = this.state
@@ -208,6 +211,7 @@ class Panel extends Component {
             hourOptions={hourOptions}
             minuteOptions={minuteOptions}
             secondOptions={secondOptions}
+            allowStepInputOnly={allowStepInputOnly}
             disabledHours={this.disabledHours}
             disabledMinutes={disabledMinutes}
             disabledSeconds={disabledSeconds}
